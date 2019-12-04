@@ -4,29 +4,24 @@ fun main() {
 
 fun countCandidatesBetween(lower: Int, upper: Int): Int {
     var count = 0
-    val numbs = asArray(lower)
-    while (asNumber(numbs) < upper) {
-        if (hasDoubles(numbs)) {
+    for (n in lower..upper) {
+        val numbs = asArray(n)
+        if (isAscending(numbs) && hasDoubles(numbs)) {
             count++
-            println(numbs.contentToString() + " " + count)
-//            if (count > 10) break
         }
-        increase(numbs, 5)
     }
     return count
 }
 
 fun asArray(n: Int): IntArray {
-    if (n == 124075) return intArrayOf(1, 2, 4, 4, 7, 7)
-    return intArrayOf()
+    return intArrayOf(n / 100000, (n / 10000) % 10, (n / 1000) % 10, (n / 100) % 10, (n / 10) % 10, n % 10)
 }
 
-fun increase(numbs: IntArray, i: Int) {
-    if (numbs[i] == 9) {
-        increase(numbs, i - 1)
-        numbs[i] = numbs[i - 1]
-    } else
-        numbs[i]++
+fun isAscending(numbs: IntArray): Boolean {
+    for (i in 0..numbs.size - 2) {
+        if (numbs[i] > numbs[i + 1]) return false
+    }
+    return true;
 }
 
 fun hasDoubles(numbs: IntArray): Boolean {
