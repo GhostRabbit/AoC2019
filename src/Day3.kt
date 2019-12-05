@@ -2,11 +2,9 @@ import kotlin.math.abs
 
 fun main() {
     Timer.measure {
-        val lines = Inputs.readEachLine("Day3.inputs")
-        val start = System.currentTimeMillis()
+        val lines = Inputs.readEachLine("Day3.input")
         println("Day3 Step1: " + selectNearest(lines))
         println("Day3 Step2: " + selectShortest(lines))
-        println("took ${System.currentTimeMillis() - start} ms")
     }
 }
 
