@@ -1,6 +1,8 @@
 fun main() {
-    println("Day 4 step 1 : " + countCandidatesBetween(124075, 580769))
-    println("Day 4 step 2 : " + countCandidatesBetweenWithUniqueDoubles(124075, 580769))
+    Timer.measure {
+        println("Day 4 step 1 : " + countCandidatesBetween(124075, 580769))
+        println("Day 4 step 2 : " + countCandidatesBetweenWithUniqueDoubles(124075, 580769))
+    }
 }
 
 fun countCandidatesBetween(lower: Int, upper: Int): Int {

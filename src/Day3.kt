@@ -1,11 +1,13 @@
 import kotlin.math.abs
 
 fun main() {
-    val lines = Inputs.readEachLine("Day3.inputs")
-    val start = System.currentTimeMillis()
-    println("Day3 Step1: " + selectNearest(lines))
-    println("Day3 Step2: " + selectShortest(lines))
-    println("took ${System.currentTimeMillis() - start} ms")
+    Timer.measure {
+        val lines = Inputs.readEachLine("Day3.inputs")
+        val start = System.currentTimeMillis()
+        println("Day3 Step1: " + selectNearest(lines))
+        println("Day3 Step2: " + selectShortest(lines))
+        println("took ${System.currentTimeMillis() - start} ms")
+    }
 }
 
 fun selectShortest(lines: List<List<String>>): Int? {

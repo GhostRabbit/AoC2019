@@ -1,37 +1,33 @@
 fun main() {
-    val codes = Inputs.readCsv("./Day2.input")
-    println("Day2 Step1: " + decode(applyFix(12, 2, codes.toMutableList())))
-    println("Day2 Step2: " + iterate(codes))
-    println("Day2 Step2.5: " + decode(applyFix(50, 64, codes.toMutableList())))
+    Timer.measure {
+        val memory = Inputs.readCsv("./Day2.input")
+        println("Day2 Step1: " + execute(poke(12, 2, memory.toMutableList())))
+        println("Day2 Step2: " + search(memory))
+        println("Day2 Step2.5: " + execute(poke(50, 64, memory.toMutableList())))
+    }
 }
 
-fun iterate(codes: List<Int>): Int {
-    var noun = 0
-    var verb = 0
-
+fun search(memory: List<Int>): Int {
+    var counter = 0
     while (true) {
-        val result = decode(applyFix(noun, verb, codes.toMutableList()))
+        val noun = counter % 100
+        val verb = counter / 100
+        val result = execute(poke(noun, verb, memory.toMutableList()))
         if (result == 19690720) {
             println("$result $noun $verb")
-            break
+            return 100 * noun + verb
         }
-        noun += 1
-        if (noun == 100) {
-            noun = 1
-            verb += 1
-        }
+        counter ++
     }
-    return 100 * noun + verb
 }
 
-
-fun applyFix(noun: Int, verb: Int, codes: MutableList<Int>): MutableList<Int> {
+fun poke(noun: Int, verb: Int, codes: MutableList<Int>): MutableList<Int> {
     codes[1] = noun
     codes[2] = verb
     return codes
 }
 
-fun decode(codes: MutableList<Int>): Int {
+fun execute(codes: MutableList<Int>): Int {
     var ip = 0
     while (true) {
         when (codes[ip]) {
