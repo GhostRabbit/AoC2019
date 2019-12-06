@@ -1,6 +1,6 @@
 fun main() {
     Timer.measure {
-        val masses = Inputs.readLines("./Day1.input")
+        val masses = Inputs.readLinesAsInt("./Day1.input")
         println("Day1 Step1: " + masses.map { calc(it) }.sum())
         println("Day1 Step2: " + masses.map { recCalc(it) }.sum())
     }
