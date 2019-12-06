@@ -23,35 +23,28 @@ fun test2(): Boolean {
     val input = Inputs.readLines("Day6.test2.input")
     val system = buildSystem(input)
     val expectedDistance = 4
-    val actual = distBetween("YOU", "SAN", system)
+    val actual = distBetween("YOU", "SAN", system.second)
     if (expectedDistance != actual) println(actual)
     return expectedDistance == actual
 }
 
 fun part2(input: List<String>): Int {
-    return distBetween("YOU", "SAN", buildSystem(input))
+    return distBetween("YOU", "SAN", buildSystem(input).second)
 }
 
-fun distBetween(s1: String, s2: String, system: Pair<Map<String, Set<String>>, Map<String, String>>): Int {
-    val childParent = system.second
-    val pathS1 = pathOf(s1, childParent)
-    var n = s2
-    var count = 0
-    println(pathS1)
-    while (!pathS1.contains(n)) {
+fun distBetween(from: String, to: String, childParent: Map<String, String>): Int {
+    return countStepsToCrossing(from, to, childParent) + countStepsToCrossing(to, from, childParent)
+}
+
+private fun countStepsToCrossing(from: String, to: String, childParent: Map<String, String>): Int {
+    var count = -1
+    val path = pathOf(from, childParent)
+    var n = to
+    while (true) {
+        if (path.contains(n)) return count
         count++
         n = childParent[n]!!
     }
-    count--
-    val pathS2 = pathOf(s2, childParent)
-    n = s1
-    while (!pathS2.contains(n)) {
-        count++
-        n = childParent[n]!!
-    }
-    count--
-    println(pathS2)
-    return count
 }
 
 private fun pathOf(s1: String, childParent: Map<String, String>): List<String> {
@@ -74,11 +67,11 @@ fun sumOfDepths(body: String, system: Map<String, Set<String>>, depth: Int): Int
 }
 
 fun buildSystem(input: List<String>): Pair<Map<String, Set<String>>, Map<String, String>> {
-    val parentChild = mutableMapOf<String, MutableSet<String>>()
-    val childParent = mutableMapOf<String, String>()
+    val parent2Children = mutableMapOf<String, MutableSet<String>>()
+    val child2Parent = mutableMapOf<String, String>()
     input.map { line -> line.split(')') }.forEach {
-        parentChild.getOrPut(it[0], { mutableSetOf<String>() }).add(it[1])
-        childParent[it[1]] = it[0]
+        parent2Children.getOrPut(it[0], { mutableSetOf() }).add(it[1])
+        child2Parent[it[1]] = it[0]
     }
-    return Pair(parentChild, childParent)
+    return Pair(parent2Children, child2Parent)
 }
